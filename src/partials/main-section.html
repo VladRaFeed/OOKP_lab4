@@ -1,9 +1,19 @@
 <section>
     <div class="readNotes">
-        <button class="readBtn">Переглянути нотатки</button>
+        <button class="readBtn" type="button">Переглянути нотатки</button>
         <ul class="nodesList">
         </ul>
     </div>
-    <div class="addNote"></div>
-    <div class="delete"></div>
+    <div class="addNote">
+        <form>
+            <label>Назва нотатки</label>
+            <input type="text" class="noteTitle">
+            <label>Текст нотатки</label>
+            <input type="text" class="noteText">
+            <button type="button" class="createNoteBtn">Створити</button>
+        </form>
+    </div>
+    <div class="delete">
+        <button type="button" class="deleteAllBtn">Видалити усі нотатки</button>
+    </div>
 </section>
