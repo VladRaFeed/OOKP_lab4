@@ -1,22 +1,10 @@
 import axios from "axios";
 
-// const getCourses = async () => {
-//   try {
-//     const data = await axios.get('http://localhost:5000/getNotes');
-//     console.log(data);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
-// getCourses();
-
 const notesList = document.querySelector('.nodesList');
 const noteTitleInput = document.querySelector('.noteTitle');
 const noteText = document.querySelector('.noteText');
 const createNoteBtn = document.querySelector('.createNoteBtn');
 const deleteAllBtn = document.querySelector('.deleteAllBtn');
-
 
 const fetchNotes = async () => {
     try {
@@ -35,10 +23,19 @@ const markupNotesList = async () => {
         <li key=${element._id}>
           <h2>${element.title}</h2>
           <p>${element.text}</p>
-          <button type="button" class="deleteCurrentNote">Видалити нотатку</button>
+          <button type="button" class="deleteCurrentNote" data-id="${element._id}">Видалити нотатку</button>
         </li>
       `
     }
+
+    const allBtns = document.querySelectorAll('.deleteCurrentNote');
+
+    allBtns.forEach(element => {
+      element.addEventListener('click', async (e) => {
+        const id = element.dataset.id;
+        await deleteCurrentNote(id);
+      })
+    });
 }
 
 markupNotesList();
@@ -54,7 +51,6 @@ const createNote = async () => {
     markupNotesList();
     noteTitleInput.value = '';
     noteText.value = '';
-    // return data;
   } catch (error) {
     console.log(error);
   }
@@ -64,22 +60,20 @@ const createNote = async () => {
 createNoteBtn.addEventListener('click', createNote);
 
 const deleteCurrentNote = async (id) => {
+  
   try {
     const {data} = await axios.delete(`http://localhost:5000/deleteNote/${id}`);
-    console.log(data) 
-    // return data;
   } catch (error) {
     console.log(error);
   }
   
   notesList.innerHTML = ``;
-  fetchNotes();
+  markupNotesList();
 }
 
 const deleteAll = async () => {
   try {
     const {data} = await axios({url: 'http://localhost:5000/deleteAll', method: 'delete'});
-    // return data;
   } catch (error) {
     console.log(error);
   }
