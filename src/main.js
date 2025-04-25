@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const notesList = document.querySelector('.nodesList');
+const notesList = document.querySelector('.notesList');
 const noteTitleInput = document.querySelector('.noteTitle');
 const noteText = document.querySelector('.noteText');
 const createNoteBtn = document.querySelector('.createNoteBtn');
@@ -20,10 +20,10 @@ const markupNotesList = async () => {
     for (let i = 0; i < markupData.length; i++) {
       const element = markupData[i];
       notesList.innerHTML += `
-        <li key=${element._id}>
-          <h2>${element.title}</h2>
-          <p>${element.text}</p>
-          <button type="button" class="deleteCurrentNote" data-id="${element._id}">Видалити нотатку</button>
+        <li key=${element._id} class="noteItem">
+          <h2 class="noteTitle">${element.title}</h2>
+          <p class="noteText">${element.text}</p>
+          <button type="button" class="deleteCurrentNote" data-id="${element._id}">Видалити</button>
         </li>
       `
     }
