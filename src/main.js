@@ -11,7 +11,6 @@ import axios from "axios";
 
 // getCourses();
 
-const readBtn = document.querySelector('.readBtn');
 const notesList = document.querySelector('.nodesList');
 const noteTitleInput = document.querySelector('.noteTitle');
 const noteText = document.querySelector('.noteText');
@@ -39,34 +38,35 @@ const markupNotesList = async () => {
           <button type="button" class="deleteCurrentNote">Видалити нотатку</button>
         </li>
       `
-      console.log(element);
     }
 }
 
-readBtn.addEventListener('click', markupNotesList);
+markupNotesList();
 
 const createNote = async () => {
   const title = noteTitleInput.value;
   const text = noteText.value;
   const _id = Math.floor(Math.random() * 100000000000);
 
-  console.log(title, text, _id);
-
   try {
     const {data} = await axios({url: 'http://localhost:5000/createNote', method: 'post', data: {_id: _id, title: title, text: text}});
-    console.log(data)
+    notesList.innerHTML = ``;
+    markupNotesList();
+    noteTitleInput.value = '';
+    noteText.value = '';
     // return data;
   } catch (error) {
     console.log(error);
   }
+
 }
 
 createNoteBtn.addEventListener('click', createNote);
 
 const deleteCurrentNote = async (id) => {
   try {
-    const {data} = await axios({url: 'http://localhost:5000/deleteNote', method: 'delete', params: {_id: id}});
-    console.log(data)
+    const {data} = await axios.delete(`http://localhost:5000/deleteNote/${id}`);
+    console.log(data) 
     // return data;
   } catch (error) {
     console.log(error);
@@ -79,7 +79,6 @@ const deleteCurrentNote = async (id) => {
 const deleteAll = async () => {
   try {
     const {data} = await axios({url: 'http://localhost:5000/deleteAll', method: 'delete'});
-    console.log(data)
     // return data;
   } catch (error) {
     console.log(error);
